@@ -4,7 +4,7 @@ This repository contains the official codes for our paper:
 
 ```Preserving Motion Detail in the Dark: Event-enhanced Optical Flow Estimation via Recurrent Feature Fusion```
 
-![Screenshot of a comment on a GitHub issue showing an image, added in the Markdown, of an Octocat smiling and raising a tentacle.](https://myoctocat.com/assets/images/base-octocat.svg)
+![https://github.com/BIT-Vision/e2flow/blob/main/e2flow.png](https://github.com/BIT-Vision/e2flow/blob/main/e2flow.png)
 
 ## Requirements
 
