@@ -17,7 +17,11 @@ conda activate e2flow
 
 ## Preparation
 
+### Download
+
 You can get checkpoint of our model from https://drive.google.com/drive/folders/14lrhoKdycVyfgtUlWHTkn6RV6JwNpNS6
+
+
 
 
 ## Demos
