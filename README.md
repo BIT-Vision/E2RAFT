@@ -95,8 +95,6 @@ You can get it from [RealData](https://pan.baidu.com/s/1HTlGbnVEaLctz-lZsnU6WQ?p
 
 ## Usage
 
-### Data Simulation
-
 ### Training
 
 ### Testing
