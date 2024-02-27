@@ -111,29 +111,33 @@ You can get it from [RealData](https://pan.baidu.com/s/1HTlGbnVEaLctz-lZsnU6WQ?p
 
 ### Training
 
+For simplicity, you can run the following command to train e2flow with FlyingChairsDark dataset.
+
 ```
 python /data/zhangpengjie/zhangpengjie/Workspace/Experiments/e2flow/train.py
 ```
 
+If you want to adjust the training parameters, please modify [configs.py](configs.py).
 
 ### Testing
+
+You can evaluate e2flow on FlyingChairsDark-val with the following command, and the outcomes will be saved in `/outcomes/e2flow/f2` by default.
 
 ```
 python /data/zhangpengjie/zhangpengjie/Workspace/Experiments/e2flow/test.py
 ```
 
+If you want to evalute e2flow on other dataset, you can run the following commands:
 
 ```
-python /data/zhangpengjie/zhangpengjie/Workspace/Experiments/e2flow/test.py --datasetName mvsec --sequence indoor_flying1
+python test.py --datasetName mvsec --sequence indoor_flying1
+python test.py --datasetName real --sequence Indoor_3_a
 ```
 
-```
-python /data/zhangpengjie/zhangpengjie/Workspace/Experiments/e2flow/test.py --datasetName real --sequence Indoor_3_a
-```
-
+We also provide instructions to evaluate other models:
 
 ```
-python /data/zhangpengjie/zhangpengjie/Workspace/Experiments/e2flow/test.py --modelName raft --checkpoint ./checkpoints/raft/raft-chairs.pth
-python /data/zhangpengjie/zhangpengjie/Workspace/Experiments/e2flow/test.py --modelName flowformer --checkpoint ./checkpoints/flowformer/chairs.pth
-python /data/zhangpengjie/zhangpengjie/Workspace/Experiments/e2flow/test.py --modelName dcei --checkpoint ./checkpoints/dcei/DCEIFlow_paper.pth
+python test.py --modelName raft --checkpoint ./checkpoints/raft/raft-chairs.pth
+python test.py --modelName flowformer --checkpoint ./checkpoints/flowformer/chairs.pth
+python test.py --modelName dcei --checkpoint ./checkpoints/dcei/DCEIFlow_paper.pth
 ```

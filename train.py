@@ -13,7 +13,7 @@ from core.model.e2flow.e2flow import E2Flow
 from core.loss import supervised_loss
 from core.dataset.FlyingChairsDark import FlyingChairsData
 
-os.environ["CUDA_VISIBLE_DEVICES"] = '8,9'
+os.environ["CUDA_VISIBLE_DEVICES"] = '0,1'
 device = torch.device("cuda:0" if torch.cuda.is_available() else "cpu")
 
 def train(cfgs):

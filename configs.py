@@ -32,21 +32,21 @@ _CN.loss.gamma = 0.8
 # For Dataset
 _CN.dataset = CN()
 _CN.dataset.FlyingChairs = CN()
-_CN.dataset.FlyingChairs.data_path = "/ssd/zhangpengjie/FlyingChairs2" # "./datasets/FlyingChairs2"
+_CN.dataset.FlyingChairs.data_path = "./datasets/FlyingChairs2"
 _CN.dataset.FlyingChairs.IF_dark = True
 _CN.dataset.FlyingChairs.crop_size = [368, 496] # Inital=(384,512)
 _CN.dataset.FlyingChairs.do_flip = True
 _CN.dataset.FlyingChairs.voxel_bins = _CN.voxel_bins
 
 _CN.dataset.MVSEC = CN()
-_CN.dataset.MVSEC.data_path = "/ssd/zhangpengjie/MVSEC" # "./datasets/MVSEC"
+_CN.dataset.MVSEC.data_path = "./datasets/MVSEC"
 _CN.dataset.MVSEC.voxel_bins = _CN.voxel_bins
 _CN.dataset.MVSEC.crop_size = [256, 256] # Inital=(260,346)
 _CN.dataset.MVSEC.do_flip = True
 _CN.dataset.MVSEC.dt = 1
 
 _CN.dataset.RealData = CN()
-_CN.dataset.RealData.data_path = '/data/zhangpengjie/zhangpengjie/Workspace/Datasets/RealDataset' # "./datasets/RealData"
+_CN.dataset.RealData.data_path = "./datasets/RealData"
 _CN.dataset.RealData.voxel_bins = _CN.voxel_bins
 _CN.dataset.RealData.crop_size_indoor = [256, 320]   # Inital = (260,346,3)
 _CN.dataset.RealData.crop_size_outdoor = [576, 1024] # Inital = (576, 1024, 3)
