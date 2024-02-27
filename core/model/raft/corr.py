@@ -1,6 +1,6 @@
 import torch
 import torch.nn.functional as F
-from core.model.RAFT.utils import bilinear_sampler
+from core.model.raft.utils import bilinear_sampler
 
 try:
     import alt_cuda_corr

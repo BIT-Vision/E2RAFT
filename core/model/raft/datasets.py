@@ -10,7 +10,7 @@ from glob import glob
 import os.path as osp
 
 from utils import frame_utils
-from core.models.RAFT.augmentor import FlowAugmentor, SparseFlowAugmentor
+from core.model.raft.augmentor import FlowAugmentor, SparseFlowAugmentor
 
 
 class FlowDataset(data.Dataset):

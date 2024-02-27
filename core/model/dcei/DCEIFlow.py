@@ -6,10 +6,10 @@ import sys
 sys.path.append('.')
 sys.path.append('core')
 
-from core.model.DCEI.decoder.with_event_updater import BasicUpdateBlockNoMask, SmallUpdateBlock
-from core.model.DCEI.backbone.raft_encoder import BasicEncoder, SmallEncoder
-from core.model.DCEI.corr.raft_corr import CorrBlock, AlternateCorrBlock
-from core.model.utils import initialize_flow, upflow8, upsample_flow
+from core.model.dcei.decoder.with_event_updater import BasicUpdateBlockNoMask, SmallUpdateBlock
+from core.model.dcei.backbone.raft_encoder import BasicEncoder, SmallEncoder
+from core.model.dcei.corr.raft_corr import CorrBlock, AlternateCorrBlock
+from core.model.dcei.utils import initialize_flow, upflow8, upsample_flow
 
 try:
     autocast = torch.cuda.amp.autocast
@@ -106,10 +106,6 @@ class DCEIFlow(nn.Module):
         # run the feature network
         reversed_emap = None
         with autocast(enabled=self.args.mixed_precision):
-            print(event_voxel)
-            print(event_voxel.shape)
-            import sys
-            sys.exit(0)
             emap = self.enet(event_voxel)
             if self.isbi and 'reversed_event_voxel' in batch.keys():
                 assert image2 is not None
@@ -215,12 +211,6 @@ class DCEIFlow(nn.Module):
                 
                 flow_predictions_bw.append(flow_up_bw)
 
-        print(flow_predictions[0])
-        print(self.args.mixed_precision)
-        print(iters)
-        print(torch.mean(flow_predictions[-1]))
-        import sys
-        sys.exit(0)
         if self.training:
             return flow_predictions, fmap2, pseudo_fmap2
             # batch = dict(

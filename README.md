@@ -40,6 +40,20 @@ We suggest organizing the checkpoints as follows:
 
 ## Data Preparation
 
+You need to download datasets to the corresponding folder and organize them correctly.
+
+```
+|- datasets
+|    |- FlyingChairs2
+|    |    |- ... 
+|    |- MVSEC
+|    |    |- ... 
+|    |- RealData
+|    |    |- ... 
+```
+
+Alternatively, you can customize the dataset path in [configs.py](configs.py).
+
 ### FlyingChairs-Dark
 
 You can download the [FlyingChairs](https://lmb.informatik.uni-freiburg.de/resources/datasets/FlyingChairs.en.html#flyingchairs) dataset, and then generate simulated data based on the simulation baseline proposed in the paper. 
@@ -97,4 +111,29 @@ You can get it from [RealData](https://pan.baidu.com/s/1HTlGbnVEaLctz-lZsnU6WQ?p
 
 ### Training
 
+```
+python /data/zhangpengjie/zhangpengjie/Workspace/Experiments/e2flow/train.py
+```
+
+
 ### Testing
+
+```
+python /data/zhangpengjie/zhangpengjie/Workspace/Experiments/e2flow/test.py
+```
+
+
+```
+python /data/zhangpengjie/zhangpengjie/Workspace/Experiments/e2flow/test.py --datasetName mvsec --sequence indoor_flying1
+```
+
+```
+python /data/zhangpengjie/zhangpengjie/Workspace/Experiments/e2flow/test.py --datasetName real --sequence Indoor_3_a
+```
+
+
+```
+python /data/zhangpengjie/zhangpengjie/Workspace/Experiments/e2flow/test.py --modelName raft --checkpoint ./checkpoints/raft/raft-chairs.pth
+python /data/zhangpengjie/zhangpengjie/Workspace/Experiments/e2flow/test.py --modelName flowformer --checkpoint ./checkpoints/flowformer/chairs.pth
+python /data/zhangpengjie/zhangpengjie/Workspace/Experiments/e2flow/test.py --modelName dcei --checkpoint ./checkpoints/dcei/DCEIFlow_paper.pth
+```

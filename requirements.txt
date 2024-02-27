@@ -1,10 +1,11 @@
 numpy
-argparse
 tqdm
-logging
 yacs
 h5py
-skimage
+scikit-image
 pillow
 imageio
 opencv-python
+einops
+loguru
+timm==0.5.4

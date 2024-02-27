@@ -3,6 +3,7 @@ import numpy as np
 import torch
 import os
 from torch.utils.data import Dataset
+import re
 
 from .utils.EventToVoxel import events_to_voxel
 
@@ -47,7 +48,7 @@ class RealDataset(Dataset):
         # 初始化参数
         self.cfgs = cfgs
         self.voxel_bins = cfgs.voxel_bins
-        self.crop_size = cfgs.crop_size
+        self.crop_size = cfgs.crop_size_indoor if re.match(name, 'Indoor\S*') is None else cfgs.crop_size_outdoor
 
         self.realdata = RealData(cfgs.data_path, name)
         

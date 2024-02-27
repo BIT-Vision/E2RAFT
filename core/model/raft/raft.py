@@ -2,10 +2,10 @@ import torch
 import torch.nn as nn
 import torch.nn.functional as F
 
-from core.model.RAFT.corr import AlternateCorrBlock, CorrBlock
-from core.model.RAFT.extractor import BasicEncoder
-from core.model.RAFT.update import BasicUpdateBlock
-from core.model.RAFT.utils import coords_grid, upflow8
+from core.model.raft.corr import AlternateCorrBlock, CorrBlock
+from core.model.raft.extractor import BasicEncoder
+from core.model.raft.update import BasicUpdateBlock
+from core.model.raft.utils import coords_grid, upflow8
 
 try:
     autocast = torch.cuda.amp.autocast

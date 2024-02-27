@@ -1,5 +1,4 @@
 import argparse
-import imageio
 import numpy as np
 import torch
 import os
@@ -23,7 +22,7 @@ from core.metric import Metric
 from core.utils.EventProcess.EventToImage import voxel_to_rgb
 from core.utils.FlowVisualization.FlowToImage import flow_to_image
 
-os.environ["CUDA_VISIBLE_DEVICES"] = '6'
+os.environ["CUDA_VISIBLE_DEVICES"] = '0'
 device = torch.device("cuda:0" if torch.cuda.is_available() else "cpu")
 
 class Tester():
@@ -31,9 +30,6 @@ class Tester():
         self.cfgs = cfgs
 
         self.model = model.eval()
-
-        if not os.path.exists(self.cfgs.testing.save_path):
-            os.makedirs(self.cfgs.testing.save_path)
 
         # Load Metric
         self.metric = Metric('numpy')
@@ -98,7 +94,7 @@ class Tester():
             self.outlier_list_sparse.append(outlier)
     
     def metric_summary(self):
-        with open(os.path.join(self.cfgs.testing.save_path, "metric.txt"), 'w') as f:
+        with open(os.path.join(self.cfgs.testing.save_path,"metric.txt"), 'w') as f:
             EPE = np.mean(self.epe_list)
             _1PE = np.mean(self._1pe_list)
             _2PE = np.mean(self._2pe_list)
@@ -136,8 +132,8 @@ class Tester():
         # 1. Images
         image_pre = image_0[0].cpu().detach().numpy().transpose(1, 2, 0)
         image_next = image_1[0].cpu().detach().numpy().transpose(1, 2, 0)
-        cv2.imwrite(os.path.join(self.cfgs.testing.save_path, str(step)+"_preImage.png"), cv2.cvtColor(image_pre, cv2.COLOR_RGB2BGR))
-        cv2.imwrite(os.path.join(self.cfgs.testing.save_path, str(step)+"_nextImage.png"), cv2.cvtColor(image_next, cv2.COLOR_RGB2BGR))
+        cv2.imwrite(os.path.join(self.cfgs.testing.save_path,str(step)+"_preImage.png"), cv2.cvtColor(image_pre, cv2.COLOR_RGB2BGR))
+        cv2.imwrite(os.path.join(self.cfgs.testing.save_path,str(step)+"_nextImage.png"), cv2.cvtColor(image_next, cv2.COLOR_RGB2BGR))
 
         # 2. Voxel
         voxel_rgb = voxel[0].cpu().detach().numpy()
@@ -148,14 +144,14 @@ class Tester():
             else:
                 voxel_add = voxel_add - voxel_rgb[j]
         voxel_rgb = voxel_to_rgb(voxel_add).transpose(1, 2, 0)
-        cv2.imwrite(os.path.join(self.cfgs.testing.save_path, str(step)+"_Voxel.png"), cv2.cvtColor(voxel_rgb, cv2.COLOR_RGB2BGR))
+        cv2.imwrite(os.path.join(self.cfgs.testing.save_path,str(step)+"_Voxel.png"), cv2.cvtColor(voxel_rgb, cv2.COLOR_RGB2BGR))
     
     def visualization_save3(self, step, flow_real, flow_predicted):
         # 3. Flow
         predicted_rgb = flow_to_image(flow_predicted[0].transpose(1,2,0))
         real_rgb = flow_to_image(flow_real[0].transpose(1,2,0))
-        cv2.imwrite(os.path.join(self.cfgs.testing.save_path, str(step)+"_PredFlow.png"), cv2.cvtColor(predicted_rgb, cv2.COLOR_RGB2BGR))
-        cv2.imwrite(os.path.join(self.cfgs.testing.save_path, str(step)+"_RealFlow.png"), cv2.cvtColor(real_rgb, cv2.COLOR_RGB2BGR))
+        cv2.imwrite(os.path.join(self.cfgs.testing.save_path,str(step)+"_PredFlow.png"), cv2.cvtColor(predicted_rgb, cv2.COLOR_RGB2BGR))
+        cv2.imwrite(os.path.join(self.cfgs.testing.save_path,str(step)+"_RealFlow.png"), cv2.cvtColor(real_rgb, cv2.COLOR_RGB2BGR))
 
     def test_f2(self, show=True):
         dataset_test = FlyingChairsData(self.cfgs.dataset.FlyingChairs, split='test', augmentor=False)
@@ -168,7 +164,7 @@ class Tester():
             image_0, image_1, voxel, flow, valid = [x.to(device, non_blocking=True) for x in data_blob]
 
             if show:
-                self.visualization_save12(image_0, image_1, voxel)
+                self.visualization_save12(step, image_0, image_1, voxel)
 
             # Predict
             flow_predictions = model(image_0, image_1, voxel)
@@ -177,7 +173,7 @@ class Tester():
             valid = valid.cpu().detach().numpy()
 
             if show:
-                self.visualization_save3(flow_real, flow_predicted)
+                self.visualization_save3(step, flow_real, flow_predicted)
             
             # Metric
             self.metric_push(flow_real, flow_predicted, valid, voxel)
@@ -199,7 +195,7 @@ class Tester():
             image_0, image_1, voxel, flow, valid = [x.to(device, non_blocking=True) for x in data_blob]
 
             if show:
-               self.visualization_save12(image_0, image_1, voxel)
+               self.visualization_save12(step, image_0, image_1, voxel)
 
             # Predict
             flow_predictions = model(image_0, image_1, voxel)
@@ -208,7 +204,7 @@ class Tester():
             valid = valid.cpu().detach().numpy()
 
             if show:
-               self.visualization_save3(flow_real, flow_predicted)
+               self.visualization_save3(step, flow_real, flow_predicted)
             
             if Outdoor:
                 flow_real = flow_real[:, :, 0:190, :]
@@ -235,7 +231,7 @@ class Tester():
             image_0, image_1, voxel = [x.to(device, non_blocking=True) for x in data_blob]
 
             if show:
-                self.visualization_save12(image_0, image_1, voxel)
+                self.visualization_save12(step, image_0, image_1, voxel)
 
             # Predict
             flow_predictions = model(image_0, image_1, voxel)
@@ -244,58 +240,61 @@ class Tester():
             if show:
                 # 3. Flow
                 predicted_rgb = flow_to_image(flow_predicted[0].transpose(1,2,0))
-                cv2.imwrite(os.path.join(self.cfgs.testing.save_path, str(step)+"_PredFlow.png"), cv2.cvtColor(predicted_rgb, cv2.COLOR_RGB2BGR))
+                cv2.imwrite(os.path.join(self.cfgs.testing.save_path,str(step)+"_PredFlow.png"), cv2.cvtColor(predicted_rgb, cv2.COLOR_RGB2BGR))
             
             step = step + 1
             
 
-def setSeed(seed):
-    torch.manual_seed(seed)
-    np.random.seed(seed)
-
 if __name__ == '__main__':
     parser = argparse.ArgumentParser()
     parser.add_argument('--modelName', help="model name", default='e2flow')
-    parser.add_argument('--checkpoint', help="restore checkpoint")
-    parser.add_argument('--datasetName', help="dataset for evaluation")
+    parser.add_argument('--checkpoint', help="restore checkpoint", default='./checkpoints/e2flow/e2flow-chairsDark.pth')
+    parser.add_argument('--datasetName', help="dataset for evaluation", default='f2')
     parser.add_argument('--sequenceName', help="sequence for evaluation")
     args = parser.parse_args()
 
     # 0. Get configs
     cfgs = get_cfg()
-    cfgs.update(vars(args))
-    setSeed(cfgs.seed)
+
+    seed = cfgs.seed
+    torch.manual_seed(seed)
+    np.random.seed(seed)
 
     # 1. Load model
-    if cfgs.modelName == 'e2flow':
+    if args.modelName == 'e2flow':
         model = E2Flow(cfgs.model).to(device)
-    elif cfgs.modelName == 'raft':
+    elif args.modelName == 'raft':
         model = RAFT(cfgs.model).to(device)
-    elif cfgs.modelName == 'flowformer':
+    elif args.modelName == 'flowformer':
         model = FlowFormer(default.get_cfg().latentcostformer)
-    elif cfgs.modelName == 'dcei':
-        model = DCEIFlow(cfgs.model, split='test').to(device)  # iter=6/12
+    elif args.modelName == 'dcei':
+        model = DCEIFlow(cfgs.model, split='test').to(device)
 
     # 2. Load Checkpoint
-    if cfgs.modelName == 'e2flow':
+    checkpoint = torch.load(cfgs.testing.checkpoint) if args.checkpoint is None else torch.load(args.checkpoint)
+    if args.modelName == 'e2flow':
         model = torch.nn.DataParallel(model, device_ids=[0])
-        model.load_state_dict(torch.load(cfgs.testing.checkpoint)['model_state_dict'])
-    elif cfgs.modelName == 'raft':
+        model.load_state_dict(checkpoint)
+    elif args.modelName == 'raft':
         model = torch.nn.DataParallel(model, device_ids=[0])
-        model.load_state_dict(torch.load(cfgs.testing.checkpoint))
-    elif cfgs.modelName == 'flowformer':
+        model.load_state_dict(checkpoint)
+    elif args.modelName == 'flowformer':
         model = torch.nn.DataParallel(model, device_ids=[0])
-        model.load_state_dict(torch.load(cfgs.testing.checkpoint))
-    elif cfgs.modelName == 'dcei':
-        model = torch.nn.DataParallel(model, device_ids=[0])
-        model.load_state_dict(torch.load(cfgs.testing.checkpoint)['model_state_dict'])
+        model.load_state_dict(checkpoint)
+    elif args.modelName == 'dcei':
+        model.load_state_dict(checkpoint)
     
     # 3. Run
+    cfgs.testing.save_path = os.path.join(cfgs.testing.save_path, args.modelName, args.datasetName)
+    if not os.path.exists(cfgs.testing.save_path):
+        os.makedirs(cfgs.testing.save_path)
     tester = Tester(cfgs, model)
     with torch.no_grad():
-        if cfgs.datasetName == 'f2':
+        if args.datasetName == 'f2':
             tester.test_f2(show=True)
-        elif cfgs.datasetName == 'mvsec':
-            tester.test_mvsec(cfgs.sequenceName, show=True)
-        elif cfgs.datasetName == 'real':
-            tester.test_real(cfgs.sequenceName, show=True)
+        elif args.datasetName == 'mvsec':
+            assert args.sequenceName is not None
+            tester.test_mvsec(args.sequenceName, show=True)
+        elif args.datasetName == 'real':
+            assert args.sequenceName is not None
+            tester.test_real(args.sequenceName, show=True)

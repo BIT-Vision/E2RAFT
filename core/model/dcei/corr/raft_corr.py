@@ -2,7 +2,7 @@ import torch
 import torch.nn.functional as F
 import sys
 sys.path.append('core')
-from core.model.utils import bilinear_sampler, coords_grid
+from core.model.dcei.utils import bilinear_sampler, coords_grid
 
 try:
     import alt_cuda_corr

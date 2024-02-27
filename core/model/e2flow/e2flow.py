@@ -77,9 +77,8 @@ class E2Flow(nn.Module):
 
             # Motion feature
             f_corr = img_corr_fn(coords1)
-            if self.cfg.e_2:
-                evt_lookup = evt_corr_fn(coords1)
-                f_corr = self.event_enhance_motion(f_corr, evt_lookup)
+            evt_lookup = evt_corr_fn(coords1)
+            f_corr = self.event_enhance_motion(f_corr, evt_lookup)
 
             # GRU
             net, up_mask, delta_flow = self.update_block(net, ctx, f_corr, flow)
@@ -93,7 +92,5 @@ class E2Flow(nn.Module):
             flow_predictions.append(flow_up)
         
         # ----------------------------------------------- 4. End ---------------------------------------------------
-        if self.training:
-            return flow_predictions
-        else:
-            return flow_predictions[-1]
+        return flow_predictions
+        # return flow_predictions[-1]
