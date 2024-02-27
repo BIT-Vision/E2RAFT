@@ -107,9 +107,17 @@ The dataset should be organized as following format:
 
 You can get it from [RealData](https://pan.baidu.com/s/1HTlGbnVEaLctz-lZsnU6WQ?pwd=5g2t).
 
-## Usage
+Similarly, the files should be organized as following format:
 
-### Training
+```
+|- Indoor_1_a.h5
+|- Indoor_1_b.h5
+|- Indoor_2_a.h5
+|- ...
+|- Outdoor_3_d.h5
+```
+
+## Training
 
 For simplicity, you can run the following command to train e2flow with FlyingChairsDark dataset.
 
@@ -119,7 +127,7 @@ python /data/zhangpengjie/zhangpengjie/Workspace/Experiments/e2flow/train.py
 
 If you want to adjust the training parameters, please modify [configs.py](configs.py).
 
-### Testing
+## Testing
 
 You can evaluate e2flow on FlyingChairsDark-val with the following command, and the outcomes will be saved in `/outcomes/e2flow/f2` by default.
 
