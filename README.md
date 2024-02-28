@@ -135,7 +135,7 @@ You can evaluate e2flow on FlyingChairsDark-val with the following command, and 
 python /data/zhangpengjie/zhangpengjie/Workspace/Experiments/e2flow/test.py
 ```
 
-If you want to evalute e2flow on other dataset, you can run the following commands:
+If you want to evalute e2flow on other datasets, you can run the following commands:
 
 ```
 python test.py --datasetName mvsec --sequence indoor_flying1
@@ -152,4 +152,4 @@ python test.py --modelName dcei --checkpoint ./checkpoints/dcei/DCEIFlow_paper.p
 
 ## Acknowledgments
 
-Thanks for the following helpful open source projects: [RAFT](https://github.com/princeton-vl/RAFT),[FlowFormer](https://github.com/drinkingcoder/FlowFormer-Official),[DCEI](https://github.com/danqu130/DCEIFlow),[ERAFT](https://github.com/uzh-rpg/E-RAFT),[TMA](https://github.com/ispc-lab/TMA),[v2e](https://github.com/SensorsINI/v2e)
+Thanks for the following helpful open source projects: [RAFT](https://github.com/princeton-vl/RAFT), [FlowFormer](https://github.com/drinkingcoder/FlowFormer-Official), [DCEI](https://github.com/danqu130/DCEIFlow), [ERAFT](https://github.com/uzh-rpg/E-RAFT), [TMA](https://github.com/ispc-lab/TMA), [v2e](https://github.com/SensorsINI/v2e)
