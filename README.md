@@ -149,3 +149,7 @@ python test.py --modelName raft --checkpoint ./checkpoints/raft/raft-chairs.pth
 python test.py --modelName flowformer --checkpoint ./checkpoints/flowformer/chairs.pth
 python test.py --modelName dcei --checkpoint ./checkpoints/dcei/DCEIFlow_paper.pth
 ```
+
+## Acknowledgments
+
+Thanks for the following helpful open source projects: [RAFT](https://github.com/princeton-vl/RAFT),[FlowFormer](https://github.com/drinkingcoder/FlowFormer-Official),[DCEI](https://github.com/danqu130/DCEIFlow),[ERAFT](https://github.com/uzh-rpg/E-RAFT),[TMA](https://github.com/ispc-lab/TMA),[v2e](https://github.com/SensorsINI/v2e)
